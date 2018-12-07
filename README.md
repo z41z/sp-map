@@ -76,6 +76,12 @@ Common Map methods
   __Map.map.scroll(false);
   ```
 
+  - moveTo(lng, lat)
+
+  ```js
+  __Map.map.moveTo(106, 26);
+  ```
+
 - ### point([lng = 0, lat = 0])
 
   ``` js

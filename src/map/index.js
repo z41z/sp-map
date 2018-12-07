@@ -1,13 +1,15 @@
 let init = require("./init");
 let center = require("./center");
 let zoom = require("./zoom");
+let scroll = require("./scroll");
+let moveTo = require("./moveTo");
 let point = require("../point/index");
-let scroll = require("../map/scroll");
 
 module.exports.default = module.exports = {
   init,
   center,
   zoom,
   scroll,
+  moveTo,
   point
 };

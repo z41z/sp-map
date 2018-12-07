@@ -2,6 +2,8 @@
       width: 100vw;
       height: 100vh;
     }</style></head><body><div id=map></div><script src="http://api.map.baidu.com/api?v=2.0&ak=DzQo095C0bFagPhpWFXS9aEcIqI0DGfG"></script><script>window.onload = function () {
-      var map = __Map.map.init("map");
-      __Map.map.scroll(0);
+      var map = __Map.map.init("map", 110, 30, 9);
+      setTimeout(function(){
+        __Map.map.moveTo(106, 26);
+      },5000)
     }</script><script type=text/javascript src=index.min.js></script></body></html>
