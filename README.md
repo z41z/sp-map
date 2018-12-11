@@ -67,7 +67,7 @@ Common Map methods
   - zoom([zoomLevel = 3])
 
   ``` js
-  __Map.zoom(12);
+  __Map.map.zoom(12);
   ```
 
   - scroll([isScroll = true])
@@ -87,3 +87,27 @@ Common Map methods
   ``` js
   __Map.point(lng, lat);
   ```
+
+- ### polygon
+
+- #### egg(radius, [level = 1, lng = 0, lat = 0, options = {}, direction = 'left'])
+
+``` js
+      let map = __Map.map.init("map", 110, 30, 16)
+      let marker = new BMap.Marker(__Map.point(104.075277, 30.548096))
+      map.addOverlay(marker)
+
+      let polygonOptions = {
+        fillColor: '#f00',
+        fillOpacity: .3,
+        strokeWeight: 1,
+        strokeOpacity: .3
+      }
+      let radius = [100, 300, 800]
+      radius.forEach(r=>{
+        let egg = __Map.polygon.egg(r, 1, 104.075277, 30.548096, polygonOptions)
+        map.addOverlay(egg);
+      })
+```
+
+![egg](./static/polygon_egg.png)

@@ -9,20 +9,53 @@
   <style>
     #map {
       width: 100vw;
-      height: 100vh;
+      height: 90vh;
     }
   </style>
 </head>
 
 <body>
   <div id=map></div>
+  <div id="distance">测距</div>
   <script src="http://api.map.baidu.com/api?v=2.0&ak=DzQo095C0bFagPhpWFXS9aEcIqI0DGfG"></script>
+  <script src="../static/distance.js"></script>
   <script>
     window.onload = function () {
-      var map = __Map.map.init("map", 110, 30, 9);
-      setTimeout(function(){
-        __Map.map.moveTo(106, 26);
-      },5000)
+      var map = __Map.map.init("map", 110, 30, 16);
+      var marker = new BMap.Marker(__Map.point(104.075277, 30.548096))
+      map.addOverlay(marker)
+      setTimeout(function () {
+        __Map.map.moveTo(104.075277, 30.548096);
+        var egg0 = __Map.polygon.egg(100, 1, 104.075277, 30.548096, {
+          fillColor: '#f00',
+          fillOpacity: .3,
+          strokeWeight: 1,
+          strokeOpacity: .3
+        })
+        var egg1 = __Map.polygon.egg(300, 1, 104.075277, 30.548096, {
+          fillColor: '#f00',
+          fillOpacity: .3,
+          strokeWeight: 1,
+          strokeOpacity: .3
+        })
+        var egg2 = __Map.polygon.egg(800, 1, 104.075277, 30.548096, {
+          fillColor: '#f00',
+          fillOpacity: .3,
+          strokeWeight: 1,
+          strokeOpacity: .3
+        })
+        map.addOverlay(egg0);
+        map.addOverlay(egg1);
+        map.addOverlay(egg2);
+      }, 500)
+
+      var distance = document.querySelector("#distance")
+      distance.addEventListener('click', function () {
+        var myDistanceToolObject = new BMapLib.DistanceTool(map, {
+          lineStroke: 2
+        });
+        myDistanceToolObject.open();
+      })
     }
   </script>
 </body>
