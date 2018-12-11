@@ -1,6 +1,6 @@
 {
   "name": "sp-bmap",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Common functions for BaiDuMap",
   "main": "index.js",
   "directories": {
