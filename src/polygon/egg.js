@@ -1,7 +1,13 @@
 const point = require("../point/index");
+const {
+  sin,
+  cos,
+  pow,
+  sqrt
+} = require("sp-math");
 
 /**
- * @refer: http://www.mathematische-basteleien.de/eggcurves.htm
+ * http://www.mathematische-basteleien.de/eggcurves.htm
  * @param {Number} radius 
  * @param {Number} level 
  * @param {Number} lng 
@@ -9,21 +15,28 @@ const point = require("../point/index");
  * @param {Object} options 
  * @param {String} direction = top,right,bottom,left 
  */
-const egg = (radius, level = 1, lng = 0, lat = 0, options = {}, direction = 'left') => {
+
+const egg = (radius, level = 1, lng = 0, lat = 0, options = {}, degree = 0) => {
   let points = [];
-  let center = offset(lng, lat, radius, direction);
+  let center = offset(lng, lat, radius, degree);
   // y正半轴
   for (let i = 0, j = radius; i < j; i++) {
     let x1 = (level * i / j);
     let y1 = exp(level, x1);
-    let point1 = point(center.lng + x1 / distance(radius), center.lat + y1 / distance(radius))
+    let calcRotateXY1 = calcRotateXY(x1, y1, degree);
+    let pointX1 = center.lng + calcRotateXY1.xResult / distance(radius);
+    let pointY1 = center.lat + calcRotateXY1.yResult / distance(radius);
+    let point1 = point(pointX1, pointY1)
     points.push(point1)
   }
   // y负半轴
   for (let n = radius, m = n; m > 0; m--) {
     let x2 = (level * m / n);
     let y2 = -exp(level, x2);
-    let point2 = point(center.lng + x2 / distance(radius), center.lat + y2 / distance(radius))
+    let calcRotateXY2 = calcRotateXY(x2, y2, degree);
+    let pointX2 = center.lng + calcRotateXY2.xResult / distance(radius);
+    let pointY2 = center.lat + calcRotateXY2.yResult / distance(radius);
+    let point2 = point(pointX2, pointY2)
     points.push(point2)
   }
   let polygon = new BMap.Polygon(points, options)
@@ -36,7 +49,7 @@ const egg = (radius, level = 1, lng = 0, lat = 0, options = {}, direction = 'lef
  * @param {Number} x 
  */
 const exp = (level, x) => {
-  return Math.sqrt(Math.abs(Math.sqrt(level) * x - Math.pow(x, 3 / 2)));
+  return sqrt(sqrt(level) * x - pow(x, 3 / 2));
 }
 
 /**
@@ -53,33 +66,27 @@ const distance = (radius) => {
  * @param {Number} lat 
  * @param {String} direction = top,right,bottom,left 
  */
-const offset = (lng, lat, radius, direction = 'left') => {
-  switch (direction) {
-    case 'top':
-      return {
-        lng,
-        lat: lat + (1 / 3) / distance(radius)
-      };
-    case 'right':
-      return {
-        lng: lng + (1 / 3) / distance(radius),
-        lat
-      };
-    case 'bottom':
-      return {
-        lng,
-        lat: lat - (1 / 3) / distance(radius)
-      };
-    case 'left':
-      return {
-        lng: lng - (1 / 3) / distance(radius),
-        lat
-      };
-    default:
-      return {
-        lng: lng + (1 / 3) / distance(radius),
-        lat
-      };
+const offset = (lng, lat, radius, degree = 0) => {
+  let offsetX = lng - cos(degree) * (1 / 5) / distance(radius);
+  let offsetY = lat - sin(degree) * (1 / 5) / distance(radius);
+  return {
+    lng: offsetX,
+    lat: offsetY
+  }
+}
+
+/**
+ * x,y旋转后坐标计算
+ * @param {Number} x 
+ * @param {Number} y 
+ * @param {Number} degree 
+ */
+const calcRotateXY = (x = 0, y = 0, degree = 0) => {
+  let xResult = x * cos(degree) - y * sin(degree)
+  let yResult = y * cos(degree) + x * sin(degree)
+  return {
+    xResult,
+    yResult
   }
 }
 

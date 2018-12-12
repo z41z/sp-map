@@ -90,7 +90,7 @@ Common Map methods
 
 - ### polygon
 
-- #### egg(radius, [level = 1, lng = 0, lat = 0, options = {}, direction = 'left'])
+- #### egg(radius, [level = 1, lng = 0, lat = 0, options = {}, rotateDegree = 0])
 
 ``` js
       let map = __Map.map.init("map", 110, 30, 16)

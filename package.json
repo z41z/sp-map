@@ -1,6 +1,6 @@
 {
   "name": "sp-bmap",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Common functions for BaiDuMap",
   "main": "index.js",
   "directories": {
@@ -19,5 +19,8 @@
     "html-webpack-plugin": "^3.2.0",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "sp-math": "^1.0.0"
   }
 }
