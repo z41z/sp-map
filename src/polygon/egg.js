@@ -3,7 +3,8 @@ const {
   sin,
   cos,
   pow,
-  sqrt
+  sqrt,
+  rotateByDegree
 } = require("sp-math");
 
 /**
@@ -16,26 +17,33 @@ const {
  * @param {String} direction = top,right,bottom,left 
  */
 
-const egg = (radius, level = 1, lng = 0, lat = 0, options = {}, degree = 0) => {
+const egg = (radius, windLevel = 1, lng = 0, lat = 0, options = {}, degree = 0) => {
   let points = [];
-  let center = offset(lng, lat, radius, degree);
+  let wind = transWindLevel(windLevel);
+  let center = offset(lng, lat, radius, degree, wind);
   // y正半轴
   for (let i = 0, j = radius; i < j; i++) {
-    let x1 = (level * i / j);
-    let y1 = exp(level, x1);
-    let calcRotateXY1 = calcRotateXY(x1, y1, degree);
-    let pointX1 = center.lng + calcRotateXY1.xResult / distance(radius);
-    let pointY1 = center.lat + calcRotateXY1.yResult / distance(radius);
+    let x1 = ((0.3 / wind + 1) * i / j);
+    let y1 = exp((0.3 / wind + 1), x1);
+    let {
+      x,
+      y
+    } = rotateByDegree(x1, y1, degree);
+    let pointX1 = center.lng + x / distance(radius);
+    let pointY1 = center.lat + y / distance(radius);
     let point1 = point(pointX1, pointY1)
     points.push(point1)
   }
   // y负半轴
   for (let n = radius, m = n; m > 0; m--) {
-    let x2 = (level * m / n);
-    let y2 = -exp(level, x2);
-    let calcRotateXY2 = calcRotateXY(x2, y2, degree);
-    let pointX2 = center.lng + calcRotateXY2.xResult / distance(radius);
-    let pointY2 = center.lat + calcRotateXY2.yResult / distance(radius);
+    let x2 = ((0.3 / wind + 1) * m / n);
+    let y2 = -exp((0.3 / wind + 1), x2);
+    let {
+      x,
+      y
+    } = rotateByDegree(x2, y2, degree);
+    let pointX2 = center.lng + x / distance(radius);
+    let pointY2 = center.lat + y / distance(radius);
     let point2 = point(pointX2, pointY2)
     points.push(point2)
   }
@@ -66,28 +74,16 @@ const distance = (radius) => {
  * @param {Number} lat 
  * @param {String} direction = top,right,bottom,left 
  */
-const offset = (lng, lat, radius, degree = 0) => {
-  let offsetX = lng - cos(degree) * (1 / 5) / distance(radius);
-  let offsetY = lat - sin(degree) * (1 / 5) / distance(radius);
+const offset = (lng, lat, radius, degree = 0, level = 0) => {
+  let offsetX = lng - cos(degree) * level / distance(radius);
+  let offsetY = lat - sin(degree) * level / distance(radius);
   return {
     lng: offsetX,
     lat: offsetY
   }
 }
 
-/**
- * x,y旋转后坐标计算
- * @param {Number} x 
- * @param {Number} y 
- * @param {Number} degree 
- */
-const calcRotateXY = (x = 0, y = 0, degree = 0) => {
-  let xResult = x * cos(degree) - y * sin(degree)
-  let yResult = y * cos(degree) + x * sin(degree)
-  return {
-    xResult,
-    yResult
-  }
+const transWindLevel = (windLevel) => {
+  return (6 - windLevel / 2) / 12;
 }
-
 module.exports.default = module.exports = egg;

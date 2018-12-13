@@ -1,8 +1,13 @@
 <!DOCTYPE html><html lang=en><head><meta charset=UTF-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=X-UA-Compatible content="ie=edge"><title>sp-bmap</title><style>#map {
       width: 100vw;
       height: 90vh;
+    }
+
+    h1 {
+      margin: 0;
+      padding: 0;
     }</style></head><body><div id=map></div><div id=distance>测距</div><script src="http://api.map.baidu.com/api?v=2.0&ak=DzQo095C0bFagPhpWFXS9aEcIqI0DGfG"></script><script src=../static/distance.js></script><script>window.onload = function () {
-      var map = __Map.map.init("map", 110, 30, 16);
+      var map = __Map.map.init("map", 104.075277, 30.548096, 16);
       var marker = new BMap.Marker(__Map.point(104.075277, 30.548096))
       map.addOverlay(marker)
       setTimeout(function () {
@@ -13,21 +18,47 @@
           strokeWeight: 1,
           strokeOpacity: .3
         }, 45)
-        var egg1 = __Map.polygon.egg(300, 1, 104.075277, 30.548096, {
+        var egg1 = __Map.polygon.egg(300, 2, 104.075277, 30.548096, {
           fillColor: '#f00',
           fillOpacity: .3,
           strokeWeight: 1,
           strokeOpacity: .3
-        }, 145)
-        var egg2 = __Map.polygon.egg(800, 1, 104.075277, 30.548096, {
+        }, 45)
+        var egg2 = __Map.polygon.egg(800, 3, 104.075277, 30.548096, {
           fillColor: '#f00',
           fillOpacity: .3,
           strokeWeight: 1,
           strokeOpacity: .3
-        }, 245)
+        }, 45)
+        var circle = __Map.polygon.circle(800, 104.075277, 30.548096, {
+          fillColor: '#f00',
+          fillOpacity: .3,
+          strokeWeight: 1,
+          strokeOpacity: .3
+        })
+        var ellipse = __Map.polygon.ellipse(1000, 104.075277, 30.548096, 1, {
+          fillColor: '#f00',
+          fillOpacity: .3,
+          strokeWeight: 1,
+          strokeOpacity: .3
+        }, 0)
+        var ellipse1 = __Map.polygon.ellipse(1000, 104.075277, 30.548096, 2, {
+          fillColor: '#f00',
+          fillOpacity: .3,
+          strokeWeight: 1,
+          strokeOpacity: .3
+        }, 90)
+
+        var infoWindow = document.createElement("div");
+        infoWindow.innerHTML = '<h1>this is infoWindow</h1>';
+        var customOverlay = new __Map.overlay.custom(__Map.point(104.075277, 30.548096), infoWindow);
+        map.addOverlay(customOverlay);
         map.addOverlay(egg0);
         map.addOverlay(egg1);
         map.addOverlay(egg2);
+        map.addOverlay(circle);
+        map.addOverlay(ellipse);
+        map.addOverlay(ellipse1);
       }, 500)
 
       var distance = document.querySelector("#distance")
