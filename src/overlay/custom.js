@@ -14,8 +14,6 @@ function custom(point, content, offset = {
   this._content = content;
   this._style = style;
   this._offset = offset;
-  this._left = 0;
-  this._top = 0;
 };
 
 custom.prototype = new BMap.Overlay();
@@ -47,15 +45,15 @@ custom.prototype.draw = function () {
   if (content instanceof Element) {
     left = content.offsetWidth / 2;
     top = content.offsetHeight;
+
+    // fixed zoomed offset bug
+    if (!localStorage.customLeft) {
+      localStorage.setItem("customLeft", left)
+      localStorage.setItem("customTop", top)
+    }
   }
-  this._div.style.left = pixel.x - left + this._offset.left + "px";
-  this._div.style.top = pixel.y - top - 20 + this._offset.top + "px";
-  // fixed map zoomed bug
-  // let {
-  //   lng,
-  //   lat
-  // } = map.getCenter();
-  // moveTo(lng, lat, map);
+  this._div.style.left = pixel.x - (+localStorage.customLeft) + this._offset.left + "px";
+  this._div.style.top = pixel.y - (+localStorage.customTop) - 20 + this._offset.top + "px";
 };
 
 module.exports.default = module.exports = custom;
