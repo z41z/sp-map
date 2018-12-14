@@ -1,5 +1,3 @@
-const moveTo = require("../map/moveTo");
-
 /**
  * 
  * @param {Point} point 
