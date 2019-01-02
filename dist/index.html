@@ -6,7 +6,7 @@
     h1 {
       margin: 0;
       padding: 0;
-    }</style></head><body><div id=map></div><div id=distance>测距</div><script src="http://api.map.baidu.com/api?v=2.0&ak=DzQo095C0bFagPhpWFXS9aEcIqI0DGfG"></script><script src=../static/distance.js></script><script>window.onload = function () {
+    }</style></head><body><div id=map></div><div id=distance>测距</div><script src="http://api.map.baidu.com/api?v=2.0&ak=DzQo095C0bFagPhpWFXS9aEcIqI0DGfG"></script><script src=../dist/bmaplib.min.js></script><script>window.onload = function () {
       var map = __Map.map.init("map", 104.075277, 30.548096, 16);
       var marker = new BMap.Marker(__Map.point(104.075277, 30.548096))
       map.addOverlay(marker)
